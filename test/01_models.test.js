@@ -25,7 +25,7 @@ describe('Models', function() {
       student = Student.build({
         firstName,
         lastName,
-        email,
+        email
       });
     });
 
@@ -37,7 +37,7 @@ describe('Models', function() {
     });
 
     describe('attributes definition', () => {
-      xit('includes `firstName`, `lastName`, and `email` fields', () => {
+      it('includes `firstName`, `lastName`, and `email` fields', () => {
         return student.save().then(savedStudent => {
           expect(savedStudent.firstName).to.equal('Peter');
           expect(savedStudent.lastName).to.equal('Parker');
@@ -45,7 +45,7 @@ describe('Models', function() {
         });
       });
 
-      xit('requires `firstName`', () => {
+      it('requires `firstName`', () => {
         student.firstName = null;
         return student.validate().then(
           () => {
@@ -55,7 +55,7 @@ describe('Models', function() {
         );
       });
 
-      xit('requires `lastName`', () => {
+      it('requires `lastName`', () => {
         student.lastName = null;
         return student.validate().then(
           () => {
@@ -65,7 +65,7 @@ describe('Models', function() {
         );
       });
 
-      xit('requires `email`', () => {
+      it('requires `email`', () => {
         student.email = null;
         return student.validate().then(
           () => {
@@ -75,7 +75,7 @@ describe('Models', function() {
         );
       });
 
-      xit('requires `email` to be in an email form', () => {
+      it('requires `email` to be in an email form', () => {
         student.email = 'hola world';
         return student.validate().then(
           () => {
@@ -98,11 +98,11 @@ describe('Models', function() {
         newStudent = Student.build({
           firstName: 'charles',
           lastName: 'xavier',
-          email: 'charlie@brainy.com',
+          email: 'charlie@brainy.com'
         });
       });
 
-      xit('capitalizes the first letter of the first and last name before save to the DB', () => {
+      it('capitalizes the first letter of the first and last name before save to the DB', () => {
         return newStudent.save().then(savedStudent => {
           expect(savedStudent.firstName).to.equal('Charles');
           expect(savedStudent.lastName).to.equal('Xavier');
@@ -121,26 +121,26 @@ describe('Models', function() {
     beforeEach(() => {
       test = Test.build({
         subject,
-        grade,
+        grade
       });
     });
 
     afterEach(() => {
       return Promise.all([
         Test.truncate({ cascade: true }),
-        Student.truncate({ cascade: true }),
+        Student.truncate({ cascade: true })
       ]);
     });
 
     describe('attributes definition', () => {
-      xit('includes `subject` and `grade` fields', () => {
+      it('includes `subject` and `grade` fields', () => {
         return test.save().then(savedTest => {
           expect(savedTest.subject).to.equal('Tree-climbing');
           expect(savedTest.grade).to.equal(79);
         });
       });
 
-      xit('requires `subject`', () => {
+      it('requires `subject`', () => {
         test.subject = null;
         return test.validate().then(
           () => {
@@ -150,7 +150,7 @@ describe('Models', function() {
         );
       });
 
-      xit('requires `grade`', () => {
+      it('requires `grade`', () => {
         test.grade = null;
         return test.validate().then(
           () => {
@@ -163,15 +163,15 @@ describe('Models', function() {
     });
 
     describe('associations', () => {
-      xit('belongs to a student', () => {
+      it('belongs to a student', () => {
         const newStudent = Student.create({
           firstName: 'Pepper',
           lastName: 'Potts',
-          email: 'pp@salsa.com',
+          email: 'pp@salsa.com'
         });
         const newTest = Test.create({
           subject: 'sword-sharpening',
-          grade: 100,
+          grade: 100
         });
         return Promise.all([newStudent, newTest])
           .spread((createdStudent, createdTest) => {
@@ -180,7 +180,7 @@ describe('Models', function() {
           .then(() => {
             return Test.findOne({
               where: { subject: 'sword-sharpening' },
-              include: { model: Student, as: 'student' },
+              include: { model: Student, as: 'student' }
             });
           })
           .then(foundTest => {
